@@ -1,8 +1,8 @@
-import { SlashCommandBuilder, CommandInteraction, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
 
 export interface Command {
   data: SlashCommandBuilder;
-  execute: (interaction: CommandInteraction) => Promise<void>;
+  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 }
 
 export class CommandRegistry {
@@ -28,7 +28,7 @@ export class CommandRegistry {
 export const commandRegistry = new CommandRegistry();
 
 export async function replyError(
-  interaction: CommandInteraction,
+  interaction: ChatInputCommandInteraction,
   message: string
 ): Promise<void> {
   const content = `❌ **Erro:** ${message}`;
@@ -41,7 +41,7 @@ export async function replyError(
 }
 
 export async function replySuccess(
-  interaction: CommandInteraction,
+  interaction: ChatInputCommandInteraction,
   message: string,
   ephemeral = false
 ): Promise<void> {

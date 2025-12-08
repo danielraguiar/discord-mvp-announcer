@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, CommandInteraction, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
 import { mvpService } from '../services/mvp.service';
 import { Command, replyError, replySuccess } from './registry';
 
@@ -30,14 +30,14 @@ export const mvpAddCommand: Command = {
         .setDescription('Mensagem personalizada para o anúncio')
     ) as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply({ ephemeral: true });
 
     try {
-      const nome = interaction.options.get('nome')?.value as string;
-      const mapa = interaction.options.get('mapa')?.value as string | undefined;
-      const prioridade = (interaction.options.get('prioridade')?.value as number) ?? 0;
-      const mensagem = interaction.options.get('mensagem')?.value as string | undefined;
+      const nome = interaction.options.getString('nome', true);
+      const mapa = interaction.options.getString('mapa');
+      const prioridade = interaction.options.getInteger('prioridade') ?? 0;
+      const mensagem = interaction.options.getString('mensagem');
 
       const existing = await mvpService.getMVPByName(nome);
       if (existing) {
@@ -110,7 +110,7 @@ export const mvpEditCommand: Command = {
     await interaction.deferReply({ ephemeral: true });
 
     try {
-      const nome = interaction.options.get('nome')?.value as string;
+      const nome = interaction.options.getString('nome', true);
       
       const mvp = await mvpService.getMVPByName(nome);
       if (!mvp) {
@@ -120,11 +120,11 @@ export const mvpEditCommand: Command = {
 
       const updates: any = {};
       
-      const novoNome = interaction.options.get('novo-nome')?.value as string | undefined;
-      const mapa = interaction.options.get('mapa')?.value as string | undefined;
-      const respawn = interaction.options.get('respawn')?.value as number | undefined;
-      const prioridade = interaction.options.get('prioridade')?.value as number | undefined;
-      const mensagem = interaction.options.get('mensagem')?.value as string | undefined;
+      const novoNome = interaction.options.getString('novo-nome');
+      const mapa = interaction.options.getString('mapa');
+      const respawn = interaction.options.getInteger('respawn');
+      const prioridade = interaction.options.getInteger('prioridade');
+      const mensagem = interaction.options.getString('mensagem');
 
       if (novoNome) updates.name = novoNome;
       if (mapa) updates.map = mapa;
@@ -197,11 +197,11 @@ export const mvpListCommand: Command = {
         .setDescription('Mostrar apenas MVPs ativos')
     ) as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
 
     try {
-      const apenasAtivos = (interaction.options.get('apenas-ativos')?.value as boolean) ?? false;
+      const apenasAtivos = interaction.options.getBoolean('apenas-ativos') ?? false;
       
       const mvps = await mvpService.getAllMVPs(apenasAtivos);
 

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, CommandInteraction, ChannelType } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, ChannelType } from 'discord.js';
 import { mvpService } from '../services/mvp.service';
 import { voiceService } from '../services/voice.service';
 import { timerService } from '../services/timer.service';
@@ -23,12 +23,12 @@ export const mvpAnnounceCommand: Command = {
         .setRequired(true)
     ) as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
 
     try {
-      const nome = interaction.options.get('nome')?.value as string;
-      const horarioStr = interaction.options.get('horario')?.value as string;
+      const nome = interaction.options.getString('nome', true);
+      const horarioStr = interaction.options.getString('horario', true);
       
       let mvp = await mvpService.getMVPByName(nome);
       
@@ -174,7 +174,7 @@ export const mvpStatusCommand: Command = {
     .setName('mvp-status')
     .setDescription('Mostra status dos MVPs ativos') as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
 
     try {
@@ -233,11 +233,11 @@ export const mvpHistoryCommand: Command = {
         .setMaxValue(50)
     ) as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
 
     try {
-      const limite = (interaction.options.get('limite')?.value as number) ?? 20;
+      const limite = interaction.options.getInteger('limite') ?? 20;
       
       const history = await mvpService.getSpawnHistory(limite);
 
@@ -283,7 +283,7 @@ export const mvpTimersCommand: Command = {
     .setName('mvp-timers')
     .setDescription('Mostra timers ativos') as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
 
     try {
