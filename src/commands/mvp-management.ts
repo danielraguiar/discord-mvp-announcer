@@ -50,7 +50,7 @@ export const mvpAddCommand: Command = {
         map: mapa || 'Não especificado',
         respawnTimeMinutes: 180,
         priority: prioridade,
-        customMessage: mensagem,
+        customMessage: mensagem || undefined,
       });
 
       await replySuccess(
@@ -106,7 +106,7 @@ export const mvpEditCommand: Command = {
         .setDescription('Nova mensagem personalizada')
     ) as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply({ ephemeral: true });
 
     try {
@@ -129,7 +129,7 @@ export const mvpEditCommand: Command = {
       if (novoNome) updates.name = novoNome;
       if (mapa) updates.map = mapa;
       if (respawn) updates.respawnTimeMinutes = respawn;
-      if (prioridade !== undefined) updates.priority = prioridade;
+      if (prioridade !== undefined && prioridade !== null) updates.priority = prioridade;
       if (mensagem) updates.customMessage = mensagem;
 
       if (Object.keys(updates).length === 0) {
@@ -162,11 +162,11 @@ export const mvpRemoveCommand: Command = {
         .setAutocomplete(true)
     ) as SlashCommandBuilder,
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply({ ephemeral: true });
 
     try {
-      const nome = interaction.options.get('nome')?.value as string;
+      const nome = interaction.options.getString('nome', true);
       
       const mvp = await mvpService.getMVPByName(nome);
       if (!mvp) {
