@@ -4,7 +4,7 @@ import {
   Events,
   REST,
   Routes,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   AutocompleteInteraction,
 } from 'discord.js';
 import { config } from '../config';
@@ -70,7 +70,7 @@ export class DiscordBot {
     });
 
     this.client.on(Events.InteractionCreate, async (interaction) => {
-      if (interaction.isCommand()) {
+      if (interaction.isChatInputCommand()) {
         await this.handleCommand(interaction);
       } else if (interaction.isAutocomplete()) {
         await this.handleAutocomplete(interaction);
@@ -99,7 +99,7 @@ export class DiscordBot {
     }
   }
 
-  private async handleCommand(interaction: CommandInteraction): Promise<void> {
+  private async handleCommand(interaction: ChatInputCommandInteraction): Promise<void> {
     const command = commandRegistry.get(interaction.commandName);
 
     if (!command) {
