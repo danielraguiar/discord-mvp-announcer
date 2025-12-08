@@ -1,0 +1,41 @@
+{
+  "name": "discord-mvp-announcer",
+  "version": "1.0.0",
+  "description": "Bot de Discord para anunciar MVPs de Ragnarok Online por voz",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "postinstall": "npm run db:generate"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "ragnarok",
+    "mvp",
+    "announcer"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/voice": "^0.18.0",
+    "@prisma/client": "^5.22.0",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "ffmpeg-static": "^5.2.0",
+    "libsodium-wrappers": "^0.7.15",
+    "node-fetch": "^3.3.2",
+    "opusscript": "^0.0.8",
+    "sodium-native": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.3",
+    "prisma": "^5.22.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

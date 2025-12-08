@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model MVP {
+  id                String   @id @default(uuid())
+  name              String   @unique
+  map               String?
+  respawnTimeMinutes Int
+  priority          Int      @default(0)
+  customMessage     String?
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  spawns            MVPSpawn[]
+  
+  @@index([priority])
+}
+
+model MVPSpawn {
+  id              String    @id @default(uuid())
+  mvpId           String
+  spawnedAt       DateTime  @default(now())
+  expectedRespawn DateTime?
+  announcedAt     DateTime?
+  killedAt        DateTime?
+  userId          String?
+  username        String?
+  
+  mvp             MVP       @relation(fields: [mvpId], references: [id], onDelete: Cascade)
+  
+  @@index([mvpId])
+  @@index([expectedRespawn])
+}
+
+model Config {
+  id                    String   @id @default(uuid())
+  guildId               String   @unique
+  voiceChannelId        String?
+  announcementRepeatCount Int    @default(3)
+  announcementRepeatDelayMs Int  @default(2000)
+  announcementVoiceDelayMs Int   @default(5000)
+  autoTimerEnabled      Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
