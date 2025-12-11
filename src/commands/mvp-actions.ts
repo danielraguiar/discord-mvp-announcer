@@ -65,13 +65,17 @@ export const mvpAnnounceCommand: Command = {
         return;
       }
 
-      const now = new Date();
-      const respawnTime = new Date();
+      const nowUtc = new Date();
+      const nowBrasilia = new Date(nowUtc.toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+      
+      const respawnTime = new Date(nowBrasilia);
       respawnTime.setHours(horas, minutos, 0, 0);
 
-      if (respawnTime <= now) {
+      if (respawnTime <= nowBrasilia) {
         respawnTime.setDate(respawnTime.getDate() + 1);
       }
+      
+      const now = nowBrasilia;
 
       const timeUntilRespawn = respawnTime.getTime() - now.getTime();
       const minutesUntilRespawn = Math.floor(timeUntilRespawn / 1000 / 60);
