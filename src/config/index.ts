@@ -15,6 +15,7 @@ export const config = {
     repeatDelayMs: parseInt(process.env.ANNOUNCEMENT_REPEAT_DELAY_MS || '2000', 10),
     voiceDelayMs: parseInt(process.env.ANNOUNCEMENT_VOICE_DELAY_MS || '5000', 10),
   },
+  timezone: process.env.TIMEZONE || 'America/Sao_Paulo',
 } as const;
 
 export function validateConfig(): void {

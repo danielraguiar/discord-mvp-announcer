@@ -50,10 +50,14 @@ chmod +x setup.sh
 DISCORD_TOKEN=seu_token_aqui
 TEXT_CHANNEL_ID=id_do_canal_texto_opcional
 DATABASE_URL="file:./dev.db"
-ANNOUNCEMENT_REPEAT_COUNT=2
-ANNOUNCEMENT_REPEAT_DELAY_MS=2000
-ANNOUNCEMENT_VOICE_DELAY_MS=5000
+TIMEZONE=America/Sao_Paulo
 ```
+
+**TIMEZONE (Obrigatório):**
+- Define o fuso horário usado pelo bot
+- Local: `America/Sao_Paulo` (Brasília)
+- Render: `America/Sao_Paulo` (mesmo que local)
+- Padrão se não configurado: `America/Sao_Paulo`
 
 **Opcional - TEXT_CHANNEL_ID:**
 - Se configurado: mensagens vão para esse canal específico

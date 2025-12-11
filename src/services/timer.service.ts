@@ -69,7 +69,7 @@ export class TimerService {
       await voiceService.announce({
         text: message,
         channel: voiceChannel,
-        repeatCount: 2,
+        repeatCount: 1,
         repeatDelay: 2000,
         leaveAfter: 5000,
       });
