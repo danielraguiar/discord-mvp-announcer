@@ -37,4 +37,5 @@ Thumbs.db
 
 # Audio cache
 audio-cache/
+.claude
 

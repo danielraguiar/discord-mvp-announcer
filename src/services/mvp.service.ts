@@ -168,7 +168,7 @@ export class MVPService {
     if (mvp.customMessage) {
       return mvp.customMessage;
     }
-    return `Daqui 5 minutos o MVP ${mvp.name} vai respawnar!`;
+    return `Daqui 5 minutos o MVP ${mvp.name} vai nascer!`;
   }
 }
 

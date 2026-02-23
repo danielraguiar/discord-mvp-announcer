@@ -64,7 +64,7 @@ export class TimerService {
         return;
       }
 
-      const message = `Daqui 5 minutos o MVP ${spawn.mvp.name} vai nascer!`;
+      const message = mvpService.formatAnnouncementMessage(spawn.mvp);
       
       await voiceService.announce({
         text: message,

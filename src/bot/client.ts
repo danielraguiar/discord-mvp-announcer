@@ -11,6 +11,7 @@ import { config } from '../config';
 import { commandRegistry } from '../commands/registry';
 import { mvpService } from '../services/mvp.service';
 import { timerService } from '../services/timer.service';
+import { eventSchedulerService } from '../services/event-scheduler.service';
 
 import {
   mvpAddCommand,
@@ -63,9 +64,11 @@ export class DiscordBot {
       console.log(`✅ Bot conectado como ${client.user.tag}`);
       
       timerService.setClient(this.client);
-      
+      eventSchedulerService.setClient(this.client);
+
       await timerService.loadActiveTimers();
-      
+      eventSchedulerService.startScheduler();
+
       await this.registerSlashCommands();
     });
 
@@ -163,7 +166,8 @@ export class DiscordBot {
     console.log('👋 Desconectando bot...');
     
     timerService.cancelAllTimers();
-    
+    eventSchedulerService.stopScheduler();
+
     await this.client.destroy();
     
     console.log('✅ Bot desconectado');

@@ -5,6 +5,7 @@ Bot de Discord multi-servidor para anunciar MVPs de Ragnarok Online por voz com 
 ## ✨ Funcionalidades
 
 - 🔊 Anúncios de voz em PT-BR (TTS)
+- 🎤 Mensagens customizadas ou padrão
 - 🌍 Suporta múltiplos servidores
 - 🎯 Entra automaticamente no canal com mais usuários
 - 🕐 Sistema de horários (ex: 21:30)
@@ -98,19 +99,25 @@ npm run dev
 ### Agendamento de MVP (Principal)
 ```bash
 /mvp-announce nome:Baphomet horario:21:30
+/mvp-announce nome:Gryphon horario:14:45 mensagem:Atenção! Gryphon vai nascer em 5 minutos!
 ```
 - Cria MVP automaticamente se não existir
 - Bot encontra canal de voz com mais usuários
 - Agenda anúncio para 5 minutos antes (21:25)
 - **NÃO anuncia imediatamente**, só agenda
+- **mensagem** (opcional): Mensagem customizada para o TTS
+
+**Mensagem Padrão (se não especificar):**
+> "Daqui 5 minutos o MVP [nome] vai nascer!"
 
 ### Gerenciamento (Opcional)
 ```bash
-/mvp-add nome:Gryphon mapa:Prontera prioridade:10
-/mvp-edit nome:Gryphon prioridade:8
+/mvp-add nome:Gryphon mapa:Prontera prioridade:10 mensagem:Gryphon está chegando!
+/mvp-edit nome:Gryphon prioridade:8 mensagem:Nova mensagem!
 /mvp-remove nome:Gryphon
 /mvp-list
 ```
+- **mensagem** (opcional em ambos): Mensagem personalizada para o TTS
 
 ### Consultas
 ```bash
@@ -122,12 +129,15 @@ npm run dev
 ## 🎯 Fluxo de Uso
 
 ```
-1. /mvp-announce nome:Baphomet horario:21:30
+1. /mvp-announce nome:Baphomet horario:21:30 mensagem:Atenção! Baphomet vai nascer!
 2. Bot agenda o anúncio (não anuncia agora)
 3. Às 21:25: Bot procura canal com mais usuários
-4. Bot entra no canal e anuncia 2x por voz
-5. Mensagem enviada no canal de texto (se configurado)
+4. Bot entra no canal e anuncia 1x por voz (mensagem customizada ou padrão)
+5. Mensagem enviada no canal de texto (se TEXT_CHANNEL_ID configurado)
 ```
+
+**Se não especificar mensagem, usa o padrão:**
+> "Daqui 5 minutos o MVP Baphomet vai nascer!"
 
 ## 🎤 Sistema de Canais de Voz
 

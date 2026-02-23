@@ -21,6 +21,11 @@ export const mvpAnnounceCommand: Command = {
         .setName('horario')
         .setDescription('Horário que o MVP vai nascer (ex: 21:30 ou 14:45)')
         .setRequired(true)
+    )
+    .addStringOption(option =>
+      option
+        .setName('mensagem')
+        .setDescription('Mensagem personalizada para o anúncio (opcional)')
     ) as SlashCommandBuilder,
 
   async execute(interaction: ChatInputCommandInteraction) {
@@ -29,6 +34,7 @@ export const mvpAnnounceCommand: Command = {
     try {
       const nome = interaction.options.getString('nome', true);
       const horarioStr = interaction.options.getString('horario', true);
+      const mensagemCustom = interaction.options.getString('mensagem');
       
       let mvp = await mvpService.getMVPByName(nome);
       
@@ -40,9 +46,13 @@ export const mvpAnnounceCommand: Command = {
           map: 'Não especificado',
           respawnTimeMinutes: 180,
           priority: 5,
+          customMessage: mensagemCustom || undefined,
         });
         
         console.log(`✅ MVP "${nome}" criado automaticamente!`);
+      } else if (mensagemCustom) {
+        mvp = await mvpService.updateMVP(mvp.id, { customMessage: mensagemCustom });
+        console.log(`✅ Mensagem customizada atualizada para "${nome}"`);
       }
 
       const horarioMatch = horarioStr.match(/^(\d{1,2}):(\d{2})$/);
